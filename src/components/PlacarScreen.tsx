@@ -1,7 +1,28 @@
+import React from "react";
 import { Header } from "./Header";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useMatch } from "../contexts/MatchContext";
 
 export function PlacarScreen() {
+  const { match } = useMatch();
+  const {
+    scoreLeoes = 0,
+    scoreDragoes = 0,
+    matchTime = 0,
+    period = "1º TEMPO",
+    isRunning = false,
+  } = match as any;
+
+  const formatTime = (totalSeconds: number) => {
+    const t = Number(totalSeconds) || 0;
+    if (isNaN(t) || t < 0) return "00:00";
+    const minutes = Math.floor(t / 60);
+    const seconds = t % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0F1E] pb-16 relative overflow-hidden">
       {/* Background Stadium Image */}
@@ -53,24 +74,26 @@ export function PlacarScreen() {
 
           {/* Score */}
           <div className="flex items-center gap-6 mb-10">
-            <span className="text-[#FFE600] text-[90px] leading-none font-bold">2</span>
+            <span className="text-[#FFE600] text-[90px] leading-none font-bold">{scoreLeoes}</span>
             <span className="text-white text-[90px] leading-none font-bold">-</span>
-            <span className="text-[#FFE600] text-[90px] leading-none font-bold">1</span>
+            <span className="text-[#FFE600] text-[90px] leading-none font-bold">{scoreDragoes}</span>
           </div>
 
           {/* Timer */}
           <div className="flex flex-col items-center gap-1.5 mb-2">
-            <span className="text-white text-[48px] leading-none font-medium">24:37</span>
-            <span className="text-[#BBBBBB] text-[18px] leading-none">2º TEMPO</span>
+            <span className="text-white text-[48px] leading-none font-medium">{formatTime(matchTime)}</span>
+            <span className="text-[#BBBBBB] text-[18px] leading-none">{period}</span>
           </div>
 
           {/* Live Indicator */}
           <div className="flex items-center gap-2 mt-4">
-            <div className="w-2 h-2 bg-[#EF5350] rounded-full animate-pulse"></div>
-            <span className="text-[#BBBBBB] text-xs">AO VIVO</span>
+            <div className={`w-2 h-2 rounded-full ${isRunning ? "bg-[#EF5350] animate-pulse" : "bg-gray-600"}`}></div>
+            <span className="text-[#BBBBBB] text-xs">{isRunning ? "AO VIVO" : "PAUSADO"}</span>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default PlacarScreen;

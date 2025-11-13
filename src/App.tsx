@@ -1,10 +1,11 @@
 import { useState } from "react";
-// Caminhos corrigidos para apontar direto para 'components'
 import { BottomNav } from "./components/BottomNav";
 import { PlacarScreen } from "./components/PlacarScreen";
 import { ControleScreen } from "./components/ControleScreen";
 import { EstatisticasScreen } from "./components/EstatisticasScreen";
 import { JogadoresScreen } from "./components/JogadoresScreen";
+import { MatchProvider } from "./contexts/MatchContext";
+
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("placar");
@@ -25,9 +26,11 @@ export default function App() {
   };
 
   return (
-    <div className="size-full bg-[#0A0F1E] max-w-[430px] mx-auto relative">
-      {renderScreen()}
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
-    </div>
+    <MatchProvider>
+      <div className="size-full bg-[#0A0F1E] max-w-[430px] mx-auto relative">
+        {renderScreen()}
+        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      </div>
+    </MatchProvider>
   );
 }
