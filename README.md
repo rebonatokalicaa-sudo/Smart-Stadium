@@ -1,5 +1,4 @@
-stádio Inteligente - Protótipo
-🏟️ Descrição
+🏟️ 
 
 O Estádio Inteligente é um protótipo de aplicação web interativa que simula o controle de um estádio moderno, oferecendo placar ao vivo, escalações, cartões, impedimentos e outras informações essenciais para acompanhar partidas em tempo real.
 
